@@ -1,0 +1,56 @@
+{
+  "files.associations": {
+    "*.conf": "ini",
+    "odoo.conf": "ini",
+    "*.xml": "xml"
+  },
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.~lock.*": true
+  },
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/backups": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "editor.rulers": [88, 120],
+  "editor.tabSize": 4,
+
+  "python.languageServer": "Pylance",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.tabSize": 4,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "black-formatter.args": ["--line-length", "88"],
+  "ruff.lineLength": 120,
+
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.tabSize": 4
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.tabSize": 2
+  },
+  "[json][jsonc]": {
+    "editor.tabSize": 2
+  },
+  "xml.format.splitAttributes": true,
+
+  "cSpell.enabled": false,
+  "markdownlint.config": { "default": false },
+  "markdown.validate.enabled": false,
+
+  "docker.dockerComposeBuild": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "containers.composeBuild": true
+}

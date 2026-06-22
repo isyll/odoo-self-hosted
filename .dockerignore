@@ -1,0 +1,11 @@
+.git
+.gitignore
+.vscode
+.editorconfig
+*.md
+LICENSE
+.env
+.env.example
+backups/
+**/__pycache__
+**/*.py[cod]

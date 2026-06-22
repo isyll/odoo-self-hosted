@@ -1,0 +1,16 @@
+services:
+  odoo:
+    command:
+      - python3
+      - -m
+      - debugpy
+      - --listen
+      - 0.0.0.0:5678
+      - --wait-for-client
+      - /usr/bin/odoo
+      - --admin-passwd=${ODOO_ADMIN_PASSWD}
+      - --db_host=db
+      - --db_port=5432
+      - --db_user=${POSTGRES_USER}
+      - --db_password=${POSTGRES_PASSWORD}
+      - --dev=qweb,xml
