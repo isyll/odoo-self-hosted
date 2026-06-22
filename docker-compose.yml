@@ -50,7 +50,7 @@ services:
       PORT: 5432
       USER: ${POSTGRES_USER}
       PASSWORD: ${POSTGRES_PASSWORD}
-    command: ["odoo", "--admin-passwd=${ODOO_ADMIN_PASSWD}"]
+    command: ["odoo", "--dev=reload,qweb,werkzeug,xml"]
     volumes:
       - odoo-data:/var/lib/odoo
       - ./config/odoo.conf:/etc/odoo/odoo.conf:ro

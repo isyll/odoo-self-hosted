@@ -116,7 +116,7 @@ docker compose logs -f odoo
 Open <http://localhost:8069>. On first launch, Odoo shows its database manager.
 
 > [!IMPORTANT]
-> The database master password is the value of `ODOO_ADMIN_PASSWD` in your `.env` (default `admin`). You need it to create, duplicate, or drop databases from the manager screen.
+> The database master password is the `admin_passwd` value in [`config/odoo.conf`](config/odoo.conf) (default `admin`). Odoo only accepts this setting from its config file, never from the command line. You need it to create, duplicate, or drop databases from the manager screen.
 
 Create a database, set an admin login and password, optionally load demo data, and you are in.
 
@@ -143,7 +143,6 @@ All configurable values live in `.env`. The committed [`.env.example`](.env.exam
 | `POSTGRES_USER` | `odoo` | Database role Odoo connects with |
 | `POSTGRES_PASSWORD` | `odoo` | Password for that role |
 | `POSTGRES_DB` | `postgres` | Maintenance database, not an Odoo database |
-| `ODOO_ADMIN_PASSWD` | `admin` | Odoo master password for the database manager |
 | `REDIS_PASSWORD` | `redis` | Redis authentication password |
 | `PGADMIN_DEFAULT_EMAIL` | `admin@odoo.local` | pgAdmin login |
 | `PGADMIN_DEFAULT_PASSWORD` | `admin` | pgAdmin password |
@@ -151,11 +150,13 @@ All configurable values live in `.env`. The committed [`.env.example`](.env.exam
 > [!WARNING]
 > The defaults are for local learning only. Change every password before exposing this stack to a network you do not fully control.
 
-Odoo's runtime tuning lives in [`config/odoo.conf`](config/odoo.conf). Database credentials and the master password are intentionally absent from that file: they are injected at runtime from `.env` so no secret is ever committed. Key options already set:
+Odoo's runtime tuning lives in [`config/odoo.conf`](config/odoo.conf). Database credentials are kept out of that file and injected at runtime from `.env`, so no infrastructure secret is committed. The Odoo master password (`admin_passwd`) is the one exception: Odoo only reads it from the config file, so it lives there with a documented local default. Key options already set:
 
-- `dev_mode = reload,qweb,werkzeug,xml` enables hot reload and template auto-refresh.
-- `workers = 0` runs Odoo threaded, which is the right mode for reload and debugging.
+- `admin_passwd = admin` is the master password for the database manager. Change it before any real use.
+- `workers = 0` runs Odoo threaded, the right mode for hot reload and debugging.
 - `smtp_server = mailpit` routes outgoing mail to the Mailpit catcher by default.
+
+Developer mode (`--dev=reload,qweb,werkzeug,xml`) is passed on the Odoo command in [`docker-compose.yml`](docker-compose.yml), which enables hot reload of addon code.
 
 ## Everyday Commands
 
