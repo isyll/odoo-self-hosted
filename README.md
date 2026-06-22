@@ -144,11 +144,13 @@ All configurable values live in `.env`. The committed [`.env.example`](.env.exam
 | `POSTGRES_PASSWORD` | `odoo` | Password for that role |
 | `POSTGRES_DB` | `postgres` | Maintenance database, not an Odoo database |
 | `REDIS_PASSWORD` | `redis` | Redis authentication password |
-| `PGADMIN_DEFAULT_EMAIL` | `admin@odoo.local` | pgAdmin login |
+| `PGADMIN_DEFAULT_EMAIL` | `admin@admin.com` | pgAdmin login (avoid reserved domains such as `.local`) |
 | `PGADMIN_DEFAULT_PASSWORD` | `admin` | pgAdmin password |
 
 > [!WARNING]
 > The defaults are for local learning only. Change every password before exposing this stack to a network you do not fully control.
+
+The host ports are configurable too. If a port is already taken on your machine (a local PostgreSQL on 5432 or Redis on 6379 is common), set the matching variable in `.env`: `ODOO_PORT`, `ODOO_LONGPOLLING_PORT`, `DB_PORT`, `REDIS_PORT`, `PGADMIN_PORT`, `MAILPIT_UI_PORT`, `MAILPIT_SMTP_PORT`, or `DEBUGPY_PORT`.
 
 Odoo's runtime tuning lives in [`config/odoo.conf`](config/odoo.conf). Database credentials are kept out of that file and injected at runtime from `.env`, so no infrastructure secret is committed. The Odoo master password (`admin_passwd`) is the one exception: Odoo only reads it from the config file, so it lives there with a documented local default. Key options already set:
 
@@ -209,7 +211,10 @@ docker compose exec odoo odoo -d mydb -i my_module --test-enable --stop-after-in
 
 ## Building a Custom Module
 
-Your `addons/` directory is mounted into the container at `/mnt/extra-addons`, which is already on Odoo's `addons_path`. Anything you put there is discoverable by Odoo.
+Your `addons/` directory is mounted into the container at `/mnt/extra-addons`, which is on Odoo's `addons_path`. A working example module named `library` is already included, so the path is active out of the box. In Odoo, open **Apps**, remove the default **Apps** filter, search for "Library", and install it to see a model, list and form views, a menu, and access rules in action.
+
+> [!NOTE]
+> Odoo only treats a folder as an addons path once it contains at least one module (a subfolder with both `__init__.py` and `__manifest__.py`). The bundled `library` module keeps `addons/` valid. If you remove it and leave the folder empty, Odoo will skip the path until you add a module.
 
 ```bash
 # Scaffold a new module skeleton into your addons directory
@@ -270,7 +275,8 @@ odoo-self-hosted/
 │   ├── extensions.json        Recommended and disabled extensions
 │   ├── launch.json            debugpy attach configuration
 │   └── settings.json          Workspace editor and linter settings
-├── addons/                    Your custom modules live here
+├── addons/
+│   └── library/               Example module (model, views, menu, security)
 ├── config/
 │   └── odoo.conf              Odoo runtime configuration
 ├── docker/
