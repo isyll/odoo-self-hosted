@@ -43,13 +43,12 @@
   "[json][jsonc]": {
     "editor.tabSize": 2
   },
-  "xml.format.splitAttributes": true,
+  "xml.format.splitAttributes": "splitNewLine",
 
   "cSpell.enabled": false,
   "markdownlint.config": { "default": false },
   "markdown.validate.enabled": false,
 
-  "docker.dockerComposeBuild": true,
   "git.autofetch": true,
   "git.confirmSync": false,
   "containers.composeBuild": true
